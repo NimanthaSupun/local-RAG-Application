@@ -1,4 +1,4 @@
-# 💬 Local RAG System (Ollama + Qdrant + Streamlit)# 💬 Local RAG System (Ollama + Qdrant + Streamlit)
+# 💬 Local RAG System (Ollama + Qdrant + Streamlit)
 
 A **privacy-first Retrieval-Augmented Generation (RAG)** system that runs entirely on your local machine. Upload documents and ask questions—get AI-powered answers with source attribution.A **local Retrieval-Augmented Generation (RAG)** system built using:
 
