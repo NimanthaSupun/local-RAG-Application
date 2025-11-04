@@ -1,0 +1,71 @@
+version: "3.8"
+
+services:
+  # Qdrant Vector Database
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant
+    ports:
+      - "6333:6333" # HTTP API
+      - "6334:6334" # gRPC API
+    volumes:
+      - ./qdrant_storage:/qdrant/storage:z
+    restart: unless-stopped
+    networks:
+      - rag-network
+
+  # Ollama LLM Service
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ./ollama_data:/root/.ollama
+    restart: unless-stopped
+    networks:
+      - rag-network
+    # Uncomment below for GPU support (NVIDIA)
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+
+  # Streamlit RAG Application
+  app:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: rag-app
+    ports:
+      - "8501:8501"
+    environment:
+      - OLLAMA_URL=http://ollama:11434
+      - QDRANT_URL=http://qdrant:6333
+      - QDRANT_COLLECTION=docs
+      - EMBED_MODEL=mxbai-embed-large
+      - GEN_MODEL=llama3.2
+      - EMBED_DIM=1024
+      - CHUNK_SIZE=500
+      - CHUNK_OVERLAP=50
+      - TOP_K=3
+    depends_on:
+      - qdrant
+      - ollama
+    restart: unless-stopped
+    networks:
+      - rag-network
+    # Mount code for development (optional - comment out for production)
+    volumes:
+      - ./server:/app
+
+networks:
+  rag-network:
+    driver: bridge
+
+volumes:
+  qdrant_storage:
+  ollama_data:

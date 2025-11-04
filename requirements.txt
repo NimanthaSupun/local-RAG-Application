@@ -4,3 +4,5 @@ pydantic
 qdrant-client
 python-dotenv
 requests
+streamlit
+PyPDF2

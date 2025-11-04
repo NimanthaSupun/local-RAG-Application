@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# Environment variables
+.env
+.env.local
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data
+qdrant_storage/
+ollama_data/
+*.pdf
+*.txt
+
+# Streamlit
+.streamlit/
+
+# Backup files
+*_backup.py
+*_old.py
+
+# Logs
+*.log
